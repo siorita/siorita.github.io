@@ -1,0 +1,218 @@
+:root {
+    --primary-color: #4CAF50;
+    --primary-hover: #45a049;
+    --secondary-color: #607D8B;
+    --secondary-hover: #546E7A;
+    --danger-color: #f44336;
+    --danger-hover: #d32f2f;
+    --background-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --text-light: #666666;
+    --border-radius: 12px;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2E7D32; /* Nature green */
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.card h3 {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin: 15px 0 10px;
+}
+
+/* Status Grid */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    text-align: center;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.label {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.value {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.dot {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.dot.connected { color: var(--primary-color); }
+.dot.disconnected { color: var(--danger-color); }
+
+/* Buttons */
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.btn-primary { background: var(--primary-color); color: white; }
+.btn-primary:hover { background: var(--primary-hover); }
+
+.btn-danger { background: var(--danger-color); color: white; }
+.btn-danger:hover { background: var(--danger-hover); }
+
+.btn-secondary { background: var(--secondary-color); color: white; }
+.btn-secondary:hover { background: var(--secondary-hover); }
+
+.btn-outline { 
+    background: transparent; 
+    border: 2px solid var(--secondary-color); 
+    color: var(--secondary-color);
+}
+.btn-outline:hover { background: #eff3f5; }
+
+.btn-save {
+    width: 100%;
+    background: var(--primary-color);
+    color: white;
+    margin-top: 10px;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.divider {
+    height: 1px;
+    background: #eee;
+    margin: 15px 0;
+}
+
+/* Feedback */
+.feedback {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.feedback.success { background: #e8f5e9; color: #2e7d32; }
+.feedback.error { background: #ffebee; color: #c62828; }
+.feedback.hidden { display: none; }
+
+/* Responsive Mobile */
+@media (max-width: 600px) {
+    .button-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+}
