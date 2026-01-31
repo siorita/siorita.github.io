@@ -116,8 +116,8 @@ const RealAPI = {
     },
 
     async sendCommand(action, payload = null) {
-        const API_URL = "https://your-cloud-api.com/command";
-        const AUTH_TOKEN = "Bearer your-secret-token";
+        const API_URL = "https://siorita.github.io/status.json";
+        const AUTH_TOKEN = "15";
 
         const response = await fetch(API_URL, {
             method: 'POST',
