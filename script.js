@@ -1,24 +1,32 @@
 // Mock System State
 let systemState = {
-    status: "OFF",
+    state: "OFF",
     mode: "MANUAL",
-    settings: {
-        interval: 30, // seconds
-        duration: 5   // minutes
-    }
+    command: "STOP",
+    interval: 30,
+    duration: 300,
+    lastUpdated: new Date().toISOString()
 };
 
 // Load state from localStorage if available
 const savedState = localStorage.getItem('bird_deterrent_state');
 if (savedState) {
     try {
-        systemState = JSON.parse(savedState);
+        const parsed = JSON.parse(savedState);
+        // Map old structure if exists or use new one
+        systemState.state = parsed.state || parsed.status || "OFF";
+        systemState.mode = parsed.mode || "MANUAL";
+        systemState.interval = parsed.interval || (parsed.settings ? parsed.settings.interval : 30);
+        systemState.duration = parsed.duration || (parsed.settings ? parsed.settings.duration : 300);
+        systemState.command = parsed.command || "STOP";
+        systemState.lastUpdated = parsed.lastUpdated || new Date().toISOString();
     } catch (e) {
         console.error("Failed to parse saved state", e);
     }
 }
 
 function saveState() {
+    systemState.lastUpdated = new Date().toISOString();
     localStorage.setItem('bird_deterrent_state', JSON.stringify(systemState));
 }
 
@@ -41,14 +49,15 @@ const MockAPI = {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 let message = "Command executed";
+                systemState.command = action;
                 
                 switch (action) {
                     case "START":
-                        systemState.status = "ON";
+                        systemState.state = "ON";
                         message = "System started";
                         break;
                     case "STOP":
-                        systemState.status = "OFF";
+                        systemState.state = "OFF";
                         message = "System stopped";
                         break;
                     case "SET_MODE_AUTO":
@@ -67,8 +76,8 @@ const MockAPI = {
                         break;
                     case "UPDATE_SETTINGS":
                         if (payload && payload.interval && payload.duration) {
-                            systemState.settings.interval = Number(payload.interval);
-                            systemState.settings.duration = Number(payload.duration);
+                            systemState.interval = Number(payload.interval);
+                            systemState.duration = Number(payload.duration);
                             message = "Settings saved";
                         } else {
                             return reject(new Error("Invalid settings payload"));
@@ -172,15 +181,17 @@ function updateConnectionStatus(isConnected) {
 function updateStatusUI(data) {
     if (!data) return;
 
-    els.statusPower.textContent = data.status || "UNKNOWN";
+    els.statusPower.textContent = data.state || "UNKNOWN";
     els.statusMode.textContent = data.mode || "UNKNOWN";
     
-    if (data.settings) {
+    if (data.interval !== undefined) {
         if (document.activeElement !== els.inputInterval) {
-            els.inputInterval.value = data.settings.interval;
+            els.inputInterval.value = data.interval;
         }
+    }
+    if (data.duration !== undefined) {
         if (document.activeElement !== els.inputDuration) {
-            els.inputDuration.value = data.settings.duration;
+            els.inputDuration.value = data.duration;
         }
     }
 }

@@ -1,9 +1,9 @@
 {
-  "status": "OFF",
+  "state": "OFF",
   "mode": "MANUAL",
-  "settings": {
-    "interval": 30,
-    "duration": 5
-  },
-  "last_updated": "2026-01-31T21:20:50Z"
+  "command": "STOP",
+  "interval": 30,
+  "duration": 300,
+  "lastUpdated": "2026-01-31T21:32:36Z",
+  "notes": "Можливі команди: START, STOP, PLAY_MAGPIE, PLAY_HAWK"
 }
