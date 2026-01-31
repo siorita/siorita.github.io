@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioacoustic Bird Deterrent System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Google Fonts for a clean look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bioacoustic Bird Deterrent</h1>
+            <p class="subtitle">Automated IoT Control Panel</p>
+        </header>
+
+        <main>
+            <!-- Status Dashboard -->
+            <section class="card status-card">
+                <h2>System Status</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <span class="label">Power</span>
+                        <span id="status-power" class="value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Mode</span>
+                        <span id="status-mode" class="value">Loading...</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">Connection</span>
+                        <span id="status-connection" class="value dot disconnected">●</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="card controls-card">
+                <h2>Manual Controls</h2>
+                
+                <div class="button-group">
+                    <button id="btn-start" class="btn btn-primary">Start System</button>
+                    <button id="btn-stop" class="btn btn-danger">Stop System</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3>Sound Triggers</h3>
+                <div class="button-group">
+                    <button id="btn-magpie" class="btn btn-secondary">Play Magpie Alarm</button>
+                    <button id="btn-hawk" class="btn btn-secondary">Play Hawk Cry</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <h3>Operation Mode</h3>
+                <div class="button-group">
+                    <button id="btn-auto" class="btn btn-outline">Automatic Mode</button>
+                    <button id="btn-manual" class="btn btn-outline">Manual Mode</button>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="card settings-card">
+                <h2>Timing Settings</h2>
+                <form id="settings-form">
+                    <div class="form-group">
+                        <label for="interval">Sound Interval (seconds)</label>
+                        <input type="number" id="interval" name="interval" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Active Duration (minutes)</label>
+                        <input type="number" id="duration" name="duration" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-save">Save Settings</button>
+                </form>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Automated Bioacoustic Bird Deterrent System</p>
+            <div id="feedback-message" class="feedback hidden"></div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
