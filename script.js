@@ -103,32 +103,54 @@ const MockAPI = {
  * Used when MOCK_MODE is false
  */
 const RealAPI = {
-    async getStatus() {
-        // Replace with your real cloud API URL
-        const API_URL = "https://siorita.github.io/status.json"; 
-        const AUTH_TOKEN = "15";
+    // Вставте сюди ваші дані з JSONBin
+    binId: "697e807843b1c97be95bbecb", 
+    apiKey: "$2a$10$Qp6cO4C.LPEihYfLNG647.ceujeA8mfp7wReCC1yQ9I3by/J8/tiS", 
 
-        const response = await fetch(API_URL, {
-            headers: { 'Authorization': AUTH_TOKEN }
+    // Отримати статус (GET)
+    async getStatus() {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${this.binId}/latest`, {
+            headers: { 'X-Master-Key': this.apiKey }
         });
         if (!response.ok) throw new Error("API Error");
-        return await response.json();
+        
+        const json = await response.json();
+        // JSONBin повертає ваш об'єкт всередині поля "record"
+        return json.record; 
     },
 
+    // Відправити команду (PUT)
     async sendCommand(action, payload = null) {
-        const API_URL = "https://siorita.github.io/status.json";
-        const AUTH_TOKEN = "15";
+        // 1. Спочатку читаємо актуальний стан, щоб не стерти налаштування
+        const currentData = await this.getStatus();
+        
+        // 2. Змінюємо тільки потрібні поля у вашій структурі
+        currentData.command = action;
+        currentData.lastUpdated = new Date().toISOString();
 
-        const response = await fetch(API_URL, {
-            method: 'POST',
+        if (action === "START") currentData.state = "ON";
+        if (action === "STOP") currentData.state = "OFF";
+        
+        // Якщо прийшли нові налаштування (інтервал/тривалість)
+        if (action === "UPDATE_SETTINGS" && payload) {
+             currentData.interval = Number(payload.interval);
+             currentData.duration = Number(payload.duration);
+        }
+
+        // 3. Відправляємо оновлений JSON назад у базу
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${this.binId}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': AUTH_TOKEN
+                'X-Master-Key': this.apiKey
             },
-            body: JSON.stringify({ action, payload })
+            body: JSON.stringify(currentData)
         });
-        if (!response.ok) throw new Error("API Error");
-        return await response.json();
+
+        if (!response.ok) throw new Error("API Save Error");
+        
+        const json = await response.json();
+        return { success: true, message: "Команду відправлено!", data: json.record };
     }
 };
 
