@@ -105,8 +105,8 @@ const MockAPI = {
 const RealAPI = {
     async getStatus() {
         // Replace with your real cloud API URL
-        const API_URL = "https://your-cloud-api.com/status"; 
-        const AUTH_TOKEN = "Bearer your-secret-token";
+        const API_URL = "https://siorita.github.io/status.json"; 
+        const AUTH_TOKEN = "15";
 
         const response = await fetch(API_URL, {
             headers: { 'Authorization': AUTH_TOKEN }
@@ -133,7 +133,7 @@ const RealAPI = {
 };
 
 // TOGGLE THIS FOR PRODUCTION
-const USE_MOCK = true;
+const USE_MOCK = false;
 const API = USE_MOCK ? MockAPI : RealAPI;
 
 // DOM Elements
